@@ -53,7 +53,7 @@ data_bag('sitemaps').each do |sitemap_item|
 end
 
 # Save the harvested URLs to the temp file
-template node[:olyn_warmer][:url_file] do
+template node[:olyn_warmer][:cache][:path] do
   source 'url_file.erb'
   variables(
     urls: urls

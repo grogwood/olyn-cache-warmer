@@ -1,5 +1,5 @@
 # Begin loop through each URL in our saved temporary file generated from the sitemap routine
-File.readlines(node[:olyn_warmer][:url_file]).each do |raw_url|
+File.readlines(node[:olyn_warmer][:cache][:path]).each do |raw_url|
 
   # Clean trailing spaces from the URL
   url = raw_url.strip
