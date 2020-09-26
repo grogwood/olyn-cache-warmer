@@ -6,7 +6,7 @@ license 'GPL-3.0'
 supports 'debian', '>= 10'
 source_url 'https://gitlab.com/olyn/olyn_warmer'
 description 'Parses sitemap URLs to warm them in a cache such as Varnish'
-version '1.0.2'
+version '1.0.3'
 
 recipe 'olyn_warmer::default', 'Parses sitemaps and warms URLs'
 recipe 'olyn_warmer::sitemaps', 'Parses sitemaps from a data bag for all URLs'
