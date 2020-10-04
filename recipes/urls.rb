@@ -13,9 +13,27 @@ data_bag('sitemaps').each do |sitemap_item|
     # Clean trailing spaces from the URL
     url = raw_url.strip
 
-    # Purge the URL from cache
-    execute "purge #{url}" do
-      command "curl #{node[:olyn_warmer][:purge][:flags].join(' ')} #{node[:olyn_warmer][:purge][:command]} #{url}"
+    # Pull the URL into an object for manipulation
+    url_object = URI.parse(url)
+
+    # Get the base file name and query string
+    url_basename = File.basename(url_object.path).chomp('/')
+    url_query_string = if url_object.query.nil?
+                         ''
+                       else
+                         url_object.query.insert(0, '?')
+                       end
+
+    # If this is a URL with no base file name, add the default file name to the URL (required for litespeed cache purge)
+    purge_url = if url_basename.empty?
+                  URI.join("#{url_object.scheme}://#{url_object.host}#{url_object.path}", "index.php#{url_query_string}")
+                else
+                  url
+                end
+
+    # Purge the URL from the cache
+    execute "purge #{purge_url}" do
+      command "curl #{node[:olyn_warmer][:purge][:flags].join(' ')} #{node[:olyn_warmer][:purge][:command]} #{purge_url}"
       action :run
     end
 
