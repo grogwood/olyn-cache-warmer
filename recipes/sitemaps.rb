@@ -27,7 +27,7 @@ data_bag('sitemaps').each do |sitemap_item|
     block do
 
       # Load the sitemap from its URL and ignore blank
-      sitemap = Nokogiri::XML(open(sitemap[:url])) do |config|
+      sitemap = Nokogiri::XML(URI.open(sitemap[:url])) do |config|
         config.strict.noblanks
       end
 
