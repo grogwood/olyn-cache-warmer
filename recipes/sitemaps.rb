@@ -17,14 +17,23 @@ rescue LoadError
   return 1
 end
 
-# Create an array of URLs we find in sitemaps
-urls = []
+# Create the URL cache folder
+directory node[:olyn_warmer][:cache][:dir] do
+  mode 0755
+  owner 'root'
+  group 'root'
+  recursive true
+  action :create
+end
 
 # Loop through each set of sitemaps in the data bag
 data_bag('sitemaps').each do |sitemap_item|
 
   # Load the data bag item
   sitemap = data_bag_item('sitemaps', sitemap_item)
+
+  # Create an array of URLs found in this sitemap
+  urls = []
 
   # Purge the sitemap URL so it isn't cached
   execute "purge sitemap #{sitemap[:url]}" do
@@ -50,12 +59,13 @@ data_bag('sitemaps').each do |sitemap_item|
     end
     action :run
   end
-end
 
-# Save the harvested URLs to the temp file
-template node[:olyn_warmer][:cache][:path] do
-  source 'url_file.erb'
-  variables(
-    urls: urls
-  )
+  # Save the harvested URLs to the temp file
+  template "#{node[:olyn_warmer][:cache][:dir]}/#{sitemap[:id]}.cache" do
+    source 'url_cache_file.erb'
+    variables(
+      urls: urls
+    )
+  end
+
 end

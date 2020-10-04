@@ -1,8 +1,11 @@
-# Temp file for URL compilation
-# todo Move this to the app data folder
-# todo multiple files for each site map, instead of one file
-default[:olyn_warmer][:cache][:path] = "#{Chef::Config[:file_cache_path]}/olyn_warmer.urls"
+# Path to the Warmer URL cache directory
+default[:olyn_warmer][:cache][:dir] = "#{Chef::Config[:olyn_application_data_path]}/warmer"
 
-# Purge command
+# Purge HTTP command
 default[:olyn_warmer][:purge][:command] = 'PURGE'
-default[:olyn_warmer][:purge][:flags]   = ['-v', '-k', '-X']
+
+# Flags to use for the Purge command
+# -i = Include headers in output
+# -v = Verbose output (needed for dev and if URL fails)
+# -X = Use proxy
+default[:olyn_warmer][:purge][:flags]   = ['-i', '-v', '-X']
