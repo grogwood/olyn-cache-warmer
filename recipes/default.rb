@@ -6,6 +6,9 @@ sitemaps =
     nil
   end
 
+# Install nokogiri gem
+include_recipe 'olyn_warmer::nokogiri'
+
 # Include the sitemap parsing recipe
 include_recipe 'olyn_warmer::sitemaps' if sitemaps
 
