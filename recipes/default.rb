@@ -6,8 +6,11 @@ sitemaps =
     nil
   end
 
+# Install nokogiri gem
+include_recipe 'olyn_warmer::nokogiri'
+
 # Include the sitemap parsing recipe
 include_recipe 'olyn_warmer::sitemaps' if sitemaps
 
 # Warm the URLs found in the sitemaps
-include_recipe 'olyn_warmer::urls' if sitemaps && File.exist?(node[:olyn_warmer][:cache][:path])
+include_recipe 'olyn_warmer::urls' if sitemaps
