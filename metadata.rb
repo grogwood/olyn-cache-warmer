@@ -6,7 +6,7 @@ license 'GPL-3.0'
 supports 'debian', '>= 10'
 source_url 'https://gitlab.com/olyn/olyn_warmer'
 description 'Parses sitemap URLs to warm them in a cache such as Varnish'
-version '1.1.0'
+version '1.1.1'
 
 provides 'olyn_warmer::default'
 provides 'olyn_warmer::nokogiri'
