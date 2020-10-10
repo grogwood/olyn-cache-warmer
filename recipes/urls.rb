@@ -17,7 +17,7 @@ data_bag('sitemaps').each do |sitemap_item|
     url_object = URI.parse(url)
 
     # Get the base file name and query string
-    url_basename = File.basename(url_object.path).chomp('/')
+    url_filename = url_object.path.split('/').last
     url_query_string = if url_object.query.nil?
                          ''
                        else
@@ -25,7 +25,7 @@ data_bag('sitemaps').each do |sitemap_item|
                        end
 
     # If this is a URL with no base file name, add the default file name to the URL (required for litespeed cache purge)
-    purge_url = if url_basename.empty?
+    purge_url = if url_filename.nil? || File.extname(url_filename).empty?
                   URI.join("#{url_object.scheme}://#{url_object.host}#{url_object.path}", "index.php#{url_query_string}")
                 else
                   url
