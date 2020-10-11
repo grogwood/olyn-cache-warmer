@@ -15,7 +15,7 @@ data_bag('sitemaps').each do |sitemap_item|
 
     # Purge the URL from cache
     execute "purge #{url}" do
-      command "curl #{node[:olyn_warmer][:purge][:flags].join(' ')} REFRESH #{url}"
+      command "curl #{node[:olyn_warmer][:purge][:flags].join(' ')} PURGE #{url}"
       action :run
     end
 
